@@ -7,5 +7,5 @@ export interface DocumentInfo {
   createdAt: Date;
   updatedAt: Date;
   documents: Array<DocumentInfo>;
-  parent?: mongoose.Types.ObjectId;
+  parent?: mongoose.Types.ObjectId | null;
 }

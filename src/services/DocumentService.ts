@@ -7,6 +7,7 @@ import { DocumentsResponseDto } from "../interfaces/document/DocumentsResponseDt
 import { DocumentCreateDto } from "../interfaces/document/DocumentCreateDto";
 import { DocumentResponseDto } from "../interfaces/document/DocumentResponseDto";
 import { DocumentUpdateDto } from "../interfaces/document/DocumentUpdateDto";
+import { DocumentInfo } from "../interfaces/document/DocumentInfo";
 
 const findDocumentRecursive = async (
   documentId: string
@@ -94,7 +95,7 @@ const createDocument = async (
       content: "",
       parent: documentCreateDto.parent,
       createdAt: util.getCurrentDate(),
-      updatedAt: util.getCurrentDate()
+      updatedAt: util.getCurrentDate(),
     });
 
     await document.save();
@@ -119,19 +120,31 @@ const createDocument = async (
 const updateDocument = async (
   documentId: string,
   documentUpdateDto: DocumentUpdateDto
-) => {
-    documentUpdateDto.updatedAt = util.getCurrentDate();
+): Promise<DocumentInfo | null> => {
+  documentUpdateDto.updatedAt = util.getCurrentDate();
   try {
-    await Document.findByIdAndUpdate(documentId, documentUpdateDto);
+    const data = await Document.findByIdAndUpdate(
+      documentId,
+      documentUpdateDto
+    );
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-const deleteDocument = async (documentId: string) => {
+const deleteDocument = async (
+  documentId: string
+): Promise<DocumentInfo | null> => {
   try {
-    await Document.findByIdAndDelete(documentId);
+    const subDocuments = await Document.find({ parent: documentId });
+    await subDocuments.map((document) => {
+      document.parent = null;
+      document.save();
+    });
+    const data = await Document.findByIdAndDelete(documentId);
+    return data;
   } catch (error) {
     console.log(error);
     throw error;

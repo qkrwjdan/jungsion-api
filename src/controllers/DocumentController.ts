@@ -7,8 +7,6 @@ import { DocumentCreateDto } from "../interfaces/document/DocumentCreateDto";
 import { DocumentService } from "../services";
 import { DocumentUpdateDto } from "../interfaces/document/DocumentUpdateDto";
 
-const tempMessage = "temp message";
-
 const getDocuments = async (req: Request, res: Response) => {
   try {
     const data = await DocumentService.getDocuments();
@@ -32,6 +30,12 @@ const getDocument = async (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   try {
     const data = await DocumentService.getDocument(documentId);
+
+    if (!data) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(util.success(statusCode.NOT_FOUND, message.NOT_FOUND));
+    }
 
     res
       .status(statusCode.OK)
@@ -88,6 +92,12 @@ const updateDocument = async (req: Request, res: Response) => {
       documentUpdateDto
     );
 
+    if (!data) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(util.success(statusCode.NOT_FOUND, message.NOT_FOUND));
+    }
+
     res
       .status(statusCode.OK)
       .send(
@@ -110,6 +120,12 @@ const deleteDocument = async (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   try {
     const data = await DocumentService.deleteDocument(documentId);
+
+    if (!data) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(util.success(statusCode.NOT_FOUND, message.NOT_FOUND));
+    }
 
     res
       .status(statusCode.CREATED)
