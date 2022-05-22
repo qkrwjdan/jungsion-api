@@ -16,7 +16,7 @@ const findDocumentRecursive = async (
 
   if (document) {
     let result: DocumentsResponseDto = {
-      id: document.id,
+      _id: document.id,
       title: document.title,
       documents: [],
     };
