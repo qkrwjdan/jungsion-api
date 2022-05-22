@@ -1,5 +1,3 @@
-import DocumentController from "./DocumentController"
+import DocumentController from "./DocumentController";
 // controller index file
-export {
-   DocumentController
-}
+export { DocumentController };

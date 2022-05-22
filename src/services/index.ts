@@ -1,6 +1,4 @@
-import DocumentService from "./DocumentService"
+import DocumentService from "./DocumentService";
 
 //service index file
-export {
-    DocumentService
-}
+export { DocumentService };

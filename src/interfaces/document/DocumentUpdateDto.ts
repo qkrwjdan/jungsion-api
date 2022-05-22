@@ -1,4 +1,4 @@
 export interface DocumentUpdateDto {
-    title: string;
-    content: string;
+  title: string;
+  content: string;
 }

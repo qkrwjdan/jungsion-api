@@ -6,7 +6,6 @@ import { DocumentsResponseDto } from "../interfaces/document/DocumentsResponseDt
 import { DocumentCreateDto } from "../interfaces/document/DocumentCreateDto";
 import { DocumentResponseDto } from "../interfaces/document/DocumentResponseDto";
 import { DocumentUpdateDto } from "../interfaces/document/DocumentUpdateDto";
-import { DocumentInfo } from "../interfaces/document/DocumentInfo";
 
 const findDocumentRecursive = async (
   documentId: string
@@ -32,11 +31,11 @@ const findDocumentRecursive = async (
   return document;
 };
 
-const getDocuments = async (): Promise<Array<DocumentsResponseDto | null>>  => {
+const getDocuments = async (): Promise<Array<DocumentsResponseDto | null>> => {
   try {
-    const documents = await Document.find({parent: null});
+    const documents = await Document.find({ parent: null });
 
-    const data:Array<DocumentsResponseDto | null> = await Promise.all(
+    const data: Array<DocumentsResponseDto | null> = await Promise.all(
       documents.map(async (document: any) => {
         const result: DocumentsResponseDto | null = await findDocumentRecursive(
           document._id
@@ -45,7 +44,7 @@ const getDocuments = async (): Promise<Array<DocumentsResponseDto | null>>  => {
       })
     );
 
-    return data ;
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -59,23 +58,23 @@ const getDocument = async (
     const document = await Document.findById(documentId);
 
     if (!document) {
-        return null; 
+      return null;
     }
 
-    let result:DocumentResponseDto = {
-        _id: document._id,
-        title: document.title,
-        content: document.content,
-        documents: [],
-        createdAt: document.createdAt,
-        updatedAt: document.updatedAt
-    }
+    let result: DocumentResponseDto = {
+      _id: document._id,
+      title: document.title,
+      content: document.content,
+      documents: [],
+      createdAt: document.createdAt,
+      updatedAt: document.updatedAt,
+    };
 
-    for(let subDocument of document.documents) {
-        let data = await Document.findById(subDocument);
-        if(data) {
-            result.documents.push(data);
-        }
+    for (let subDocument of document.documents) {
+      let data = await Document.findById(subDocument);
+      if (data) {
+        result.documents.push(data);
+      }
     }
 
     return result;

@@ -90,7 +90,9 @@ const updateDocument = async (req: Request, res: Response) => {
 
     res
       .status(statusCode.OK)
-      .send(util.success(statusCode.CREATED, message.UPDATE_DOCUMENT_SUCCESS, data));
+      .send(
+        util.success(statusCode.CREATED, message.UPDATE_DOCUMENT_SUCCESS, data)
+      );
   } catch (error) {
     console.log(error);
     res
@@ -108,7 +110,7 @@ const deleteDocument = async (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   try {
     const data = await DocumentService.deleteDocument(documentId);
-    
+
     res
       .status(statusCode.CREATED)
       .send(util.success(statusCode.OK, message.DELETE_DOCUMENT_SUCCESS, data));
