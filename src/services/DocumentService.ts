@@ -68,6 +68,7 @@ const getDocument = async (
       title: document.title,
       content: document.content,
       documents: [],
+      parent: document.parent,
       createdAt: document.createdAt,
       updatedAt: document.updatedAt,
     };
@@ -93,7 +94,7 @@ const createDocument = async (
     const document = new Document({
       title: documentCreateDto.title,
       content: "",
-      parent: documentCreateDto.parent,
+      parent: documentCreateDto.parent || null,
       createdAt: util.getCurrentDate(),
       updatedAt: util.getCurrentDate(),
     });
