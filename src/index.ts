@@ -1,16 +1,24 @@
 import express, { Request, Response, NextFunction } from "express";
 import config from "./config";
+import cors from "cors";
 const app = express();
 import connectDB from "./loaders/db";
 import routes from "./routes";
 require("dotenv").config();
+
+let corsOptions = {
+  origin: "*",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(routes); 
+app.use(routes);
 
 interface ErrorType {
   message: string;
