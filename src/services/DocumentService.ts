@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Document from "../models/Document";
+import util from "../modules/util";
 
 import { PostBaseResponseDto } from "../interfaces/common/PostBaseResponseDto";
 import { DocumentsResponseDto } from "../interfaces/document/DocumentsResponseDto";
@@ -92,13 +93,14 @@ const createDocument = async (
       title: documentCreateDto.title,
       content: "",
       parent: documentCreateDto.parent,
+      createdAt: util.getCurrentDate(),
+      updatedAt: util.getCurrentDate()
     });
 
     await document.save();
 
     const parentDocument = await Document.findById(documentCreateDto.parent);
     if (parentDocument) {
-      console.log("여기 들어왕");
       parentDocument.documents.push(document._id);
       parentDocument.save();
     }
@@ -118,6 +120,7 @@ const updateDocument = async (
   documentId: string,
   documentUpdateDto: DocumentUpdateDto
 ) => {
+    documentUpdateDto.updatedAt = util.getCurrentDate();
   try {
     await Document.findByIdAndUpdate(documentId, documentUpdateDto);
   } catch (error) {
