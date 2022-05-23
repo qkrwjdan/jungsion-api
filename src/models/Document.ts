@@ -4,7 +4,6 @@ import { DocumentInfo } from "../interfaces/document/DocumentInfo";
 const DocumentSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
   },
   content: {
     type: String,
