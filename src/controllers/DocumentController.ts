@@ -54,14 +54,12 @@ const getDocument = async (req: Request, res: Response) => {
 };
 
 const createDocument = async (req: Request, res: Response) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
-  }
   const documentCreateDto: DocumentCreateDto = req.body;
-
+  
+  if (!documentCreateDto.title) {
+    documentCreateDto.title = ""
+  }
+  
   try {
     const data = await DocumentService.createDocument(documentCreateDto);
 
