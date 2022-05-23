@@ -7,7 +7,7 @@ const router: Router = Router();
 router.get("/", DocumentController.getDocuments);
 router.get("/:documentId", DocumentController.getDocument);
 
-router.post("/", [body("title").notEmpty()], DocumentController.createDocument);
+router.post("/", DocumentController.createDocument);
 
 router.put("/:documentId", DocumentController.updateDocument);
 router.delete("/:documentId", DocumentController.deleteDocument);
